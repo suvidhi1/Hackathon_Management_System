@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Update Judge</h2>
+
+<form method="POST" action="{{ url_for('update_judge', judge_id=judge[0], hackathon_id=judge[1]) }}">
+    <label for="judge_id">Judge ID (User ID):</label>
+    <input type="number" name="judge_id" value="{{ judge[0] }}" placeholder="Judge ID" required><br>
+
+    <label for="hackathon_id">Hackathon ID:</label>
+    <input type="number" name="hackathon_id" value="{{ judge[1] }}" placeholder="Hackathon ID" required><br>
+
+    <button type="submit">Update Judge</button>
+</form>
+
+{% endblock %}

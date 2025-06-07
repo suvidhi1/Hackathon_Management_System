@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Result</title>
+</head>
+<body>
+    <h1>Edit Result</h1>
+    <form method="POST" action="{{ url_for('update_result', result_id=result[0]) }}">
+        <label for="hackathon_id">Hackathon ID:</label>
+        <input type="number" id="hackathon_id" name="hackathon_id" value="{{ result[1] }}" required><br>
+
+        <label for="team_id">Team ID:</label>
+        <input type="number" id="team_id" name="team_id" value="{{ result[2] }}" required><br>
+
+        <label for="position">Position:</label>
+        <input type="number" id="position" name="position" value="{{ result[3] }}" required><br>
+
+        <button type="submit">Update Result</button>
+    </form>
+</body>
+</html>

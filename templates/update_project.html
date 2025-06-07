@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Project</title>
+</head>
+<body>
+    <h1>Edit Project</h1>
+    <form method="POST" action="{{ url_for('update_project', project_id=project[0]) }}">
+        <label for="team_id">Team ID:</label>
+        <input type="number" id="team_id" name="team_id" value="{{ project[1] }}" required><br>
+
+        <label for="hackathon_id">Hackathon ID:</label>
+        <input type="number" id="hackathon_id" name="hackathon_id" value="{{ project[2] }}" required><br>
+
+        <label for="project_title">Title:</label>
+        <input type="text" id="project_title" name="project_title" value="{{ project[3] }}" required><br>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required>{{ project[4] }}</textarea><br>
+
+        <label for="project_link">Project Link:</label>
+        <input type="url" id="project_link" name="project_link" value="{{ project[5] }}"><br>
+
+        <label for="submission_date">Submission Date:</label>
+        <input type="date" id="submission_date" name="submission_date" value="{{ project[6] }}" required><br>
+
+        <label for="status">Status:</label>
+        <select id="status" name="status" required>
+            <option value="Pending" {% if project[7] == 'Pending' %}selected{% endif %}>Pending</option>
+            <option value="Approved" {% if project[7] == 'Approved' %}selected{% endif %}>Approved</option>
+            <option value="Rejected" {% if project[7] == 'Rejected' %}selected{% endif %}>Rejected</option>
+        </select><br>
+
+        <button type="submit">Save Changes</button>
+    </form>
+</body>
+</html>

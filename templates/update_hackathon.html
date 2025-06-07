@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Hackathon</title>
+</head>
+<body>
+    <h1>Edit Hackathon</h1>
+    <form method="POST" action="{{ url_for('update_hackathon', hackathon_id=hackathon[0]) }}">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" value="{{ hackathon[1] }}" required><br>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required>{{ hackathon[2] }}</textarea><br>
+
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" value="{{ hackathon[3] }}" required><br>
+
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date" value="{{ hackathon[4] }}" required><br>
+
+        <label for="status">Status:</label>
+        <select id="status" name="status" required>
+            <option value="open" {% if hackathon[5] == 'open' %}selected{% endif %}>Open</option>
+            <option value="closed" {% if hackathon[5] == 'closed' %}selected{% endif %}>Closed</option>
+            
+        </select><br>
+
+        <button type="submit">Save Changes</button>
+    </form>
+</body>
+</html>

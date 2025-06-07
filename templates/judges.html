@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judge Management</title>
+    <style>
+        /* General Button Styling */
+        button {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: grey; /* All buttons set to grey */
+        }
+
+        /* Button Hover Effect */
+        button:hover {
+            background-color: #808080; /* Darker grey on hover */
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: grey; /* Column heading set to grey */
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+    <script>
+        function openModal() {
+            document.getElementById("addModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("addModal").style.display = "none";
+        }
+    </script>
+</head>
+<body>
+    <h1 style="text-align: center;">Judge Management</h1>
+
+    <!-- Add Button -->
+    <div style="text-align: center;">
+        <button onclick="openModal()">Add New Judge</button>
+    </div>
+
+    <!-- Modal for Adding a New Judge -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Add New Judge</h2>
+            <form method="POST" action="{{ url_for('add_judge') }}">
+                <label for="judge_id">Judge ID (User ID):</label>
+                <input type="number" id="judge_id" name="judge_id" required><br>
+
+                <label for="hackathon_id">Hackathon ID:</label>
+                <input type="number" id="hackathon_id" name="hackathon_id" required><br>
+
+                <button type="submit">Add Judge</button>
+            </form>
+        </div>
+    </div>
+
+    <form method="GET" action="/search_judges">
+        <div style="text-align: center; margin: 20px;">
+            <input type="text" name="query" placeholder="Search judges" style="padding: 10px; font-size: 14px; width: 80%; border-radius: 5px; border: 1px solid #ddd;"/>
+            <button type="submit">Search</button>
+        </div>
+    </form>
+
+    <!-- Table to Display Judges -->
+    <table>
+        <thead>
+            <tr>
+                <th>Judge ID</th>
+                <th>Hackathon ID</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for judge in judges %}
+            <tr>
+                <td>{{ judge[0] }}</td> <!-- Judge ID -->
+                <td>{{ judge[1] }}</td> <!-- Hackathon ID -->
+                <td>
+                    <a href="{{ url_for('update_judge', judge_id=judge[0], hackathon_id=judge[1]) }}">
+                        <button>Edit</button>
+                    </a>
+                    <a href="{{ url_for('delete_judge', judge_id=judge[0], hackathon_id=judge[1]) }}" onclick="return confirm('Are you sure you want to delete this judge?');">
+                        <button>Delete</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+<script>
+    const searchInput = document.querySelector('input[name="query"]');
+    searchInput.addEventListener('input', function () {
+        const query = this.value.toLowerCase();
+        const rows = document.querySelectorAll('table tbody tr');
+        rows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            row.style.display = text.includes(query) ? '' : 'none';
+        });
+    });
+</script>
